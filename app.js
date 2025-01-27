@@ -19,12 +19,12 @@ const cors = require("cors");
 
 app.use(
   cors({
-    origin: ["http://localhost:5173", "https://n-saji.github.io"],
+    origin: process.env.INPUT_ORIGIN,
   })
 );
 
 app.use((req, res, next) => {
-  const allowedOrigins = ["http://localhost:5173", "https://n-saji.github.io"];
+  const allowedOrigins = process.env.INPUT_ORIGIN;
   const origin = req.headers.origin;
 
   if ((!allowedOrigins.includes(origin) && origin) || !origin) {
@@ -54,7 +54,7 @@ app.get("/api/weather", async (req, res) => {
 
 app.get("/api/cities", async (req, res) => {
   try {
-    const apiurl = "https://wft-geo-db.p.rapidapi.com/v1/geo";
+    const apiurl = process.env.GEO_API_URL;
 
     const { city } = req.query;
     const apiUrl = apiurl + `/cities?namePrefix=${city}`;
