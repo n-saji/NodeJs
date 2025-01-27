@@ -2,7 +2,7 @@ require("dotenv").config();
 const express = require("express");
 const axios = require("axios");
 const rateLimit = require("express-rate-limit");
-
+const INPUT_ORIGIN = ["http://localhost:5173","https://n-saji.github.io"]
 const app = express();
 const PORT = process.env.PORT || 5050;
 
@@ -17,16 +17,15 @@ app.use(express.json());
 
 const cors = require("cors");
 
-console.log(process.env.INPUT_ORIGIN);
 
 app.use(
   cors({
-    origin: `${process.env.INPUT_ORIGIN}`,
+    origin: INPUT_ORIGIN,
   })
 );
 
 app.use((req, res, next) => {
-  const allowedOrigins = process.env.INPUT_ORIGIN;
+  const allowedOrigins = INPUT_ORIGIN;
   const origin = req.headers.origin;
 
   if ((!allowedOrigins.includes(origin) && origin) || !origin) {
