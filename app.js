@@ -21,7 +21,7 @@ console.log(process.env.INPUT_ORIGIN);
 
 app.use(
   cors({
-    origin: [process.env.INPUT_ORIGIN],
+    origin: `${process.env.INPUT_ORIGIN}`,
   })
 );
 
