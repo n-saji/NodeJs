@@ -6,9 +6,8 @@ const rateLimit = require("express-rate-limit");
 const app = express();
 const PORT = process.env.PORT || 5050;
 
-
 const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000, 
+  windowMs: 15 * 60 * 1000,
   max: 100,
 });
 
@@ -28,7 +27,7 @@ app.use((req, res, next) => {
   const allowedOrigins = ["http://localhost:5173", "https://n-saji.github.io"];
   const origin = req.headers.origin;
 
-  if (!allowedOrigins.includes(origin) && origin) {
+  if ((!allowedOrigins.includes(origin) && origin) || !origin) {
     return res.status(403).json({ message: "Access forbidden" });
   }
   next();
