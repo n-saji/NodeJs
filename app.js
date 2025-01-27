@@ -17,6 +17,8 @@ app.use(express.json());
 
 const cors = require("cors");
 
+console.log(process.env.INPUT_ORIGIN);
+
 app.use(
   cors({
     origin: [process.env.INPUT_ORIGIN],
