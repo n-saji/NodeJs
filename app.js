@@ -1,6 +1,9 @@
 require("dotenv").config();
 const express = require("express");
 const axios = require("axios");
+console.log(process.env.API_KEY);
+import API_KEY from "/etc/secrets/.env";
+console.log(API_KEY);
 
 const app = express();
 const PORT = process.env.PORT || 5050;
@@ -59,7 +62,7 @@ app.get("/api/cities", async (req, res) => {
     const { city } = req.query;
     const apiUrl = apiurl + `/cities?namePrefix=${city}`;
     const RAPID_API_KEY = process.env.RAPID_API_KEY;
-    console.log(apiUrl,RAPID_API_KEY);
+    console.log(apiUrl, RAPID_API_KEY);
 
     const response = await axios.get(apiUrl, {
       headers: {
