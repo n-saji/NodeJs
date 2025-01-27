@@ -59,7 +59,7 @@ app.get("/api/cities", async (req, res) => {
     const { city } = req.query;
     const apiUrl = apiurl + `/cities?namePrefix=${city}`;
     const RAPID_API_KEY = process.env.RAPID_API_KEY;
-    console.log(apiUrl);
+    console.log(apiUrl,RAPID_API_KEY);
 
     const response = await axios.get(apiUrl, {
       headers: {
