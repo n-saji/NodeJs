@@ -23,11 +23,20 @@ app.use(
   })
 );
 
+app.use((req, res, next) => {
+  const allowedOrigins = ["http://localhost:5173", "https://n-saji.github.io"];
+  const origin = req.headers.origin;
+
+  if (!allowedOrigins.includes(origin) && origin) {
+    return res.status(403).json({ message: "Access forbidden" });
+  }
+  next();
+});
+
 app.get("/api/weather", async (req, res) => {
   try {
-    const apiKey = process.env.API_KEY || "63fa1a019632987a45748e935162fc0d";
-    const WEATHER_API_URL =
-      process.env.WEATHER_API_URL || "https://api.openweathermap.org/data/2.5";
+    const apiKey = process.env.API_KEY;
+    const WEATHER_API_URL = process.env.WEATHER_API_URL;
     const { lat, lon } = req.query;
     const apiUrl = `${WEATHER_API_URL}/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric`;
     console.log(apiUrl);
@@ -49,9 +58,7 @@ app.get("/api/cities", async (req, res) => {
 
     const { city } = req.query;
     const apiUrl = apiurl + `/cities?namePrefix=${city}`;
-    const RAPID_API_KEY =
-      process.env.RAPID_API_KEY ||
-      "c6ef564e4fmsh4cab87d4be73e1fp1f5038jsn1e0a1fc7d18f";
+    const RAPID_API_KEY = process.env.RAPID_API_KEY;
     console.log(apiUrl);
 
     const response = await axios.get(apiUrl, {
