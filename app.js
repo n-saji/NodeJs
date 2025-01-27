@@ -58,7 +58,7 @@ app.get("/api/cities", async (req, res) => {
     const apiurl = process.env.GEO_API_URL;
 
     const { city } = req.query;
-    const apiUrl = apiurl + `/cities?namePrefix=${city}&minPopulation=100000&limit=100`;
+    const apiUrl = apiurl + `/cities?namePrefix=${city}&minPopulation=100000&limit=10`;
     const RAPID_API_KEY = process.env.RAPID_API_KEY;
     console.log(apiUrl, RAPID_API_KEY);
 
