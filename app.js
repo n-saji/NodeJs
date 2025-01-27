@@ -2,7 +2,7 @@ require("dotenv").config();
 const express = require("express");
 const axios = require("axios");
 console.log(process.env.API_KEY);
-import API_KEY from "/etc/secrets/.env";
+// import API_KEY from "/etc/secrets/.env";
 console.log(API_KEY);
 
 const app = express();
