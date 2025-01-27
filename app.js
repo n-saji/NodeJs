@@ -19,7 +19,7 @@ const cors = require("cors");
 
 app.use(
   cors({
-    origin: process.env.INPUT_ORIGIN,
+    origin: [process.env.INPUT_ORIGIN],
   })
 );
 
