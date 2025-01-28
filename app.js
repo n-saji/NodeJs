@@ -5,6 +5,8 @@ const rateLimit = require("express-rate-limit");
 const INPUT_ORIGIN = ["http://localhost:5173","https://n-saji.github.io"]
 const app = express();
 const PORT = process.env.PORT || 5050;
+const WEATHER_API_URL = process.env.WEATHER_API_URL
+const WEATHER_API_KEY = process.env.API_KEY;
 
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000,
@@ -36,20 +38,20 @@ app.use((req, res, next) => {
 
 app.get("/api/weather", async (req, res) => {
   try {
-    const apiKey = process.env.API_KEY;
-    const WEATHER_API_URL = process.env.WEATHER_API_URL;
+
+    ;
     const { lat, lon } = req.query;
-    const apiUrl = `${WEATHER_API_URL}/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric`;
+    const apiUrl = `${WEATHER_API_URL}/weather?lat=${lat}&lon=${lon}&appid=${WEATHER_API_KEY}&units=metric`;
     console.log(apiUrl);
 
     const response = await axios.get(apiUrl, {
-      headers: { Authorization: `Bearer ${apiKey}` },
+      headers: { Authorization: `Bearer ${WEATHER_API_KEY}` },
     });
 
     res.json(response.data);
   } catch (error) {
     console.error("Error making API call:", error.message);
-    res.status(500).json({ error: "Failed to fetch data" });
+    res.status(500).json({ error: "Failed to fetch weather data" });
   }
 });
 
@@ -72,9 +74,26 @@ app.get("/api/cities", async (req, res) => {
     res.json(response.data);
   } catch (error) {
     console.error("Error making API call:", error.message);
-    res.status(500).json({ error: "Failed to fetch data" });
+    res.status(500).json({ error: "Failed to fetch city data" });
   }
 });
+
+app.get("/api/weather/forecast", async (req, res) => { 
+  const { lat, lon } = req.query;
+  link = WEATHER_API_URL + `/forecast?lat=${lat}&lon=${lon}&appid=${WEATHER_API_KEY}&units=metric`
+  console.log(link)
+
+  try {
+    axios({ method: 'get', url: link })
+    .then(response => {
+      res.json(response.data)
+    })
+  } catch (error) {
+    console.error("error making call to fetch forecast data", error.message)
+    res.status(500).json({ error: "Failed to fetch forecast data" });
+  }
+
+})
 
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
